@@ -5,8 +5,15 @@ export const heroesReducer = (state: Hero[] = [], action: Action) => {
     case ActionTypes.fetchAllHeroes:
       return action.payload;
 
-    // case ActionTypes.searchHero:
-    //   return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const heroReducer = (state: Hero, action: Action) => {
+  switch (action.type) {
+    case ActionTypes.fetchSingleHero:
+      return action.payload;
 
     default:
       return state;

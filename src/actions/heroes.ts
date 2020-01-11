@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { ActionTypes } from "./types";
 
 export interface Hero {
+  id: string;
   name: string;
   powerstats: {
     strength: string;
@@ -49,15 +50,19 @@ export interface FetchAllHeroesAction {
   payload: Hero[];
 }
 
-// export interface SearchHeroAction {
-//   type: ActionTypes.searchHero;
-//   payload: Hero;
-// }
+export interface FetchSingleHeroAction {
+  type: ActionTypes.fetchSingleHero;
+  payload: Hero;
+}
+
+export interface HeroId {
+  id: string;
+}
+
+const corsProxy = "https://cors-anywhere.herokuapp.com/";
 
 export const fetchAllHeroes = () => {
-  const corsProxy = "https://cors-anywhere.herokuapp.com/";
   const url = "https://superheroapi.com/api/2987607971258652/search/batman";
-
   return async (dispatch: Dispatch) => {
     const res = await axios.get(corsProxy + url);
     dispatch<FetchAllHeroesAction>({
@@ -67,15 +72,14 @@ export const fetchAllHeroes = () => {
   };
 };
 
-// export const searchHero = () => {
-//   const name = "batman";
-//   const url = `https://superheroapi.com/api/2987607971258652/search/${name}`;
-//   return async (dispatch: Dispatch) => {
-//     const res = await axios.get<Hero>(url);
-//     console.log(res);
-//     dispatch<SearchHeroAction>({
-//       type: ActionTypes.searchHero,
-//       payload: res.data
-//     });
-//   };
-// };
+export const fetchSingleHero = (heroId: HeroId) => {
+  const url = `https://superheroapi.com/api/2987607971258652/${heroId}`;
+  return async (dispatch: Dispatch) => {
+    const res = await axios.get(corsProxy + url);
+    console.log(res.data);
+    dispatch<FetchSingleHeroAction>({
+      type: ActionTypes.fetchSingleHero,
+      payload: res.data
+    });
+  };
+};

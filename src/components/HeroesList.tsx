@@ -2,6 +2,7 @@ import React from "react";
 import { Hero, fetchAllHeroes } from "../actions";
 import { StoreState } from "../reducers";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import "../styles/heroesList.scss";
 
@@ -20,6 +21,7 @@ class _HeroesList extends React.Component<ListProps> {
 
     return this.props.heroes.map(
       ({
+        id,
         name,
         powerstats,
         biography,
@@ -53,12 +55,14 @@ class _HeroesList extends React.Component<ListProps> {
         const { url } = image;
 
         return (
-          <div className="card">
+          <div className="card" key={id}>
             <div className="title">
               <img alt={name} src={url} />
 
               <h2>
-                {name} - {publisher}
+                <Link to={`/hero/${id}`}>
+                  {name} - {publisher}
+                </Link>
               </h2>
             </div>
 
