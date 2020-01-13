@@ -3,7 +3,10 @@ import { Hero, fetchAllHeroes } from "../actions";
 import { StoreState } from "../reducers";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
+import SearchAndInfoContainer from "./SearchAndInfoContainer";
+import NotFound from "../images/NotFound.png";
 import "../styles/heroesList.scss";
 
 interface ListProps {
@@ -16,66 +19,53 @@ class _HeroesList extends React.Component<ListProps> {
     this.props.fetchAllHeroes();
   }
 
+  addDefaultImgSrc = (e: React.BaseSyntheticEvent) => {
+    console.log(e.target.src);
+    e.target.src = NotFound;
+  };
+
   renderHeroes(): JSX.Element[] {
-    console.log(this.props.heroes);
-
+    console.log(this.props);
     return this.props.heroes.map(
-      ({
-        id,
-        name,
-        powerstats,
-        biography,
-        appearance,
-        work,
-        connections,
-        image
-      }: Hero) => {
-        //Destructure props
-        const {
-          intelligence,
-          strength,
-          speed,
-          durability,
-          power,
-          combat
-        } = powerstats;
-
-        const {
-          fullName,
-          alterEgos,
-          aliases,
-          placeOfBirth,
-          publisher,
-          alignment
-        } = biography;
-
-        const { gender, race, height, weight } = appearance;
-        const { occupation, base } = work;
-        const { groupAffiliation, relatives } = connections;
-        const { url } = image;
-
+      ({ id, name, biography, appearance, work, connections, image }: Hero) => {
         return (
           <div className="card" key={id}>
             <div className="title">
-              <img alt={name} src={url} />
+              <img alt={name} src={image.url} onError={this.addDefaultImgSrc} />
 
               <h2>
-                <Link to={`/hero/${id}`}>
-                  {name} - {publisher}
+                <Link to={`/${id}`}>
+                  {name} - {biography["publisher"]}
                 </Link>
               </h2>
             </div>
 
-            <div className="stats">
-              <h6>Power Stats</h6>
-              <ul>
-                <li>Intelligence: {intelligence}</li>
-                <li>Strength: {strength}</li>
-                <li>Speed: {speed}</li>
-                <li>Endurance: {durability}</li>
-                <li>Power: {power}</li>
-                <li>Combat: {combat}</li>
-              </ul>
+            <div className="_information">
+              <h3>Key Facts</h3>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Real Name:</th>
+                    <td>{biography["full-name"]}</td>
+                  </tr>
+                  <tr>
+                    <th>Alter Egos:</th>
+                    <td>{biography["alter-egos"]}</td>
+                  </tr>
+                  <tr>
+                    <th>Headquarters:</th>
+                    <td>{work.base}</td>
+                  </tr>
+                  <tr>
+                    <th>Connections:</th>
+                    <td>{connections["group-affiliation"]}</td>
+                  </tr>
+                  <tr>
+                    <th>Species:</th>
+                    <td>{appearance.race}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         );
@@ -84,7 +74,12 @@ class _HeroesList extends React.Component<ListProps> {
   }
 
   render() {
-    return <div className="container">{this.renderHeroes()}</div>;
+    return (
+      <div>
+        <SearchAndInfoContainer />
+        <div className="container">{this.renderHeroes()}</div>
+      </div>
+    );
   }
 }
 

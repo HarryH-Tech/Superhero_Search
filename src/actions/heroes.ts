@@ -15,11 +15,12 @@ export interface Hero {
   };
 
   biography: {
-    fullName: string;
-    alterEgos: string;
+    "full-name": string;
+    "alter-egos": string;
     aliases: string[];
-    placeOfBirth: string;
+    "place-of-birth": string;
     publisher: string;
+    "first-appearance": string;
     alignment: string;
   };
 
@@ -36,7 +37,7 @@ export interface Hero {
   };
 
   connections: {
-    groupAffiliation: string;
+    "group-affiliation": string;
     relatives: string;
   };
 
@@ -55,16 +56,25 @@ export interface FetchSingleHeroAction {
   payload: Hero;
 }
 
+export interface SearchHeroesAction {
+  type: ActionTypes.searchHeroes;
+  payload: Hero[];
+}
+
 export interface HeroId {
   id: string;
 }
 
-const corsProxy = "https://cors-anywhere.herokuapp.com/";
+export interface HeroName {
+  name: string;
+}
+
+const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
 
 export const fetchAllHeroes = () => {
-  const url = "https://superheroapi.com/api/2987607971258652/search/batman";
+  const url = "https://superheroapi.com/api/2987607971258652/search/superman";
   return async (dispatch: Dispatch) => {
-    const res = await axios.get(corsProxy + url);
+    const res = await axios.get(corsProxyUrl + url);
     dispatch<FetchAllHeroesAction>({
       type: ActionTypes.fetchAllHeroes,
       payload: res.data.results
@@ -72,11 +82,23 @@ export const fetchAllHeroes = () => {
   };
 };
 
-export const fetchSingleHero = (heroId: HeroId) => {
-  const url = `https://superheroapi.com/api/2987607971258652/${heroId}`;
+export const searchHeroes = (heroName: HeroName) => {
+  const url = `https://superheroapi.com/api/2987607971258652/search/${heroName}`;
   return async (dispatch: Dispatch) => {
-    const res = await axios.get(corsProxy + url);
+    const res = await axios.get(corsProxyUrl + url);
     console.log(res.data);
+
+    dispatch<SearchHeroesAction>({
+      type: ActionTypes.searchHeroes,
+      payload: res.data.results
+    });
+  };
+};
+
+export const fetchSingleHero = (heroId: HeroId) => {
+  return async (dispatch: Dispatch) => {
+    const url = `https://superheroapi.com/api/2987607971258652${heroId}`;
+    const res = await axios.get<Hero>(corsProxyUrl + url);
     dispatch<FetchSingleHeroAction>({
       type: ActionTypes.fetchSingleHero,
       payload: res.data

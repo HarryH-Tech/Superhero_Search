@@ -1,10 +1,39 @@
+$color-primary: #4477ff;
+
 .info-container {
   background-color: #eee;
   border-radius: 100px;
-  width: 80%;
+  width: 60%;
   margin: 2rem auto;
   text-align: center;
+  padding-top: 1rem;
+
   p {
     font-size: 1.3rem;
+  }
+
+  #-searchbar {
+    margin: 0.5rem auto;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+  }
+
+  #search-button {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    color: white;
+    border: 0.2rem solid $color-primary;
+    background-image: linear-gradient(to right bottom, #4477ff, #99ddff);
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0.2rem 0.2rem 0.5rem #000;
+    }
+
+    &:active {
+      transform: translateY(0.3rem);
+    }
   }
 }

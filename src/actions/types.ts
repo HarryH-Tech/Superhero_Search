@@ -1,9 +1,16 @@
-import { FetchAllHeroesAction, FetchSingleHeroAction } from "./heroes";
+import {
+  FetchAllHeroesAction,
+  FetchSingleHeroAction,
+  SearchHeroesAction
+} from "./heroes";
 
 export enum ActionTypes {
   fetchAllHeroes,
   fetchSingleHero,
-  searchHero
+  searchHeroes
 }
 
-export type Action = FetchAllHeroesAction | FetchSingleHeroAction;
+export type Action =
+  | FetchAllHeroesAction
+  | FetchSingleHeroAction
+  | SearchHeroesAction;

@@ -1,5 +1,7 @@
 .container {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -19,7 +21,23 @@
     margin-top: 0.8rem;
   }
 
-  ul {
-    list-style-type: none;
+  ._information {
+    table {
+      font-size: 1.2rem;
+      width: 95%;
+      margin: 0.8rem auto;
+      border-radius: 1rem;
+      border-collapse: collapse;
+
+      th,
+      td {
+        border: 0.1rem solid black;
+        padding: 0.1rem;
+      }
+    }
+
+    ul {
+      list-style-type: none;
+    }
   }
 }

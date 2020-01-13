@@ -1,16 +1,50 @@
 import React, { useState } from "react";
 import "../styles/searchAndInfoContainer.scss";
 
+import { StoreState } from "../reducers";
+import { connect } from "react-redux";
+import { Hero, searchHeroes } from "../actions";
+
+import Swal from "sweetalert2";
+
 interface SearchProps {
-  searchHero?: Function;
+  searchHeroes: Function;
+  hero: Hero;
 }
 
-const SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
-  const [searchQuery, setSearchQuery] = useState("");
-  console.log(searchQuery);
+interface Event {
+  target: {
+    value: string;
+  };
+  key: string;
+}
+
+const _SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
+  const [heroName, setHeroName] = useState("");
 
   const searchHeroes = () => {
-    console.log(props);
+    if (heroName === "") {
+      Swal.fire({
+        title: "Please Enter Something To Search For 🙂",
+        icon: "warning",
+        confirmButtonText: "OK"
+      });
+    }
+
+    props.searchHeroes(heroName);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHeroName(e.target.value);
+    console.log(e.target.value);
+  };
+
+  //Hacky way to handle search submission on enter keypress
+  const handleKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log(heroName);
+    if (e.charCode === 13) {
+      searchHeroes();
+    }
   };
 
   return (
@@ -20,15 +54,28 @@ const SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
         <p>Search for information about your favorite superheroes!</p>
 
         <input
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={handleInputChange}
+          onKeyPress={handleKeypress}
+          value={heroName}
           type="text"
           id="-searchbar"
           placeholder="Search Heroes..."
         />
-        <button onClick={searchHeroes}>Search</button>
+        <br />
+        <button id="search-button" onClick={searchHeroes}>
+          Search
+        </button>
       </div>
     </>
   );
 };
+
+const mapStateToProps = (state: StoreState): { hero: Hero } => {
+  return { hero: state.hero };
+};
+
+export const SearchAndInfoContainer = connect(mapStateToProps, {
+  searchHeroes
+})(_SearchAndInfoContainer);
 
 export default SearchAndInfoContainer;
