@@ -10,6 +10,10 @@ import Swal from "sweetalert2";
 interface SearchProps {
   searchHeroes: Function;
   hero: Hero;
+
+  response?: {
+    error?: string;
+  };
 }
 
 interface Event {
@@ -23,9 +27,18 @@ const _SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
   const [heroName, setHeroName] = useState("");
 
   const searchHeroes = () => {
+    console.log(props);
     if (heroName === "") {
       Swal.fire({
         title: "Please Enter Something To Search For 🙂",
+        icon: "warning",
+        confirmButtonText: "OK"
+      });
+    }
+
+    if (props.response === "error") {
+      Swal.fire({
+        title: "Please Enter hh To Search For 🙂",
         icon: "warning",
         confirmButtonText: "OK"
       });

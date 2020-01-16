@@ -5,6 +5,7 @@ import { ActionTypes } from "./types";
 export interface Hero {
   id: string;
   name: string;
+
   powerstats: {
     strength: string;
     speed: string;
@@ -72,7 +73,7 @@ export interface HeroName {
 const corsProxyUrl = "https://cors-anywhere.herokuapp.com/";
 
 export const fetchAllHeroes = () => {
-  const url = "https://superheroapi.com/api/2987607971258652/search/superman";
+  const url = "https://superheroapi.com/api/2987607971258652/search/batman";
   return async (dispatch: Dispatch) => {
     const res = await axios.get(corsProxyUrl + url);
     dispatch<FetchAllHeroesAction>({

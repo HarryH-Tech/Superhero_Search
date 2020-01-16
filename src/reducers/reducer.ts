@@ -1,18 +1,5 @@
 import { Hero, Action, ActionTypes } from "../actions";
 
-export const heroesReducer = (state: Hero[] = [], action: Action) => {
-  switch (action.type) {
-    case ActionTypes.fetchAllHeroes:
-      return action.payload;
-
-    case ActionTypes.searchHeroes:
-      return action.payload || state;
-
-    default:
-      return state;
-  }
-};
-
 const initialState: Hero = {
   id: "",
   name: "",
@@ -54,6 +41,20 @@ const initialState: Hero = {
 
   image: {
     url: ""
+  }
+};
+
+export const heroesReducer = (state: Hero[] = [], action: Action) => {
+  switch (action.type) {
+    case ActionTypes.fetchAllHeroes:
+      return action.payload;
+
+    case ActionTypes.searchHeroes:
+      console.log(action);
+      return action.payload || state;
+
+    default:
+      return state;
   }
 };
 

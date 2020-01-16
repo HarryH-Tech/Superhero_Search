@@ -5,6 +5,9 @@ import { Hero, fetchSingleHero } from "../actions";
 import "../styles/heroItem.scss";
 import NotFound from "../images/NotFound.png";
 import { Link } from "react-router-dom";
+import loadingIcon from "../images/loadingIcon.gif";
+
+import { PageNotFound } from "./PageNotFound";
 
 interface HeroProps {
   id: string;
@@ -17,13 +20,15 @@ interface HeroProps {
 
 export const _HeroItem: React.FC<HeroProps> = props => {
   const [heroId, setHeroId] = useState(props.match.url);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect((): void => {
+    setLoading(true);
     props.fetchSingleHero(heroId);
-    console.log(props.hero);
+    setLoading(false);
   }, []);
 
-  const addDefaultImgSrc = (e: React.BaseSyntheticEvent) => {
+  const addDefaultImgSrc = (e: React.BaseSyntheticEvent): void => {
     console.log(e.target.src);
     e.target.src = NotFound;
   };
@@ -38,112 +43,127 @@ export const _HeroItem: React.FC<HeroProps> = props => {
     appearance
   } = props.hero;
 
+  if (loading) {
+    return (
+      <div>
+        <img src={loadingIcon} alt="Loading icon" />
+      </div>
+    );
+  }
+
+  if (!props.hero.id) {
+    return <PageNotFound />;
+  }
+
   return (
     <>
-      <div id="button-container">
-        <Link to="/">
-          <button id="back-button">Go Back</button>
-        </Link>
-      </div>
-      <div className="hero-card">
-        <div className="title">
-          <h1>{name}</h1>
+      <div>
+        <div id="button-container">
+          <Link to="/">
+            <button id="back-button">Go Back</button>
+          </Link>
         </div>
-        <img
-          id="hero-img"
-          src={image.url}
-          alt={`${name}`}
-          onError={addDefaultImgSrc}
-        />
+        <div className="hero-card">
+          <div className="title">
+            <h1>{name}</h1>
+          </div>
+          <img
+            id="hero-img"
+            src={image ? image.url : "Image Not Found"}
+            alt={`${name}`}
+            onError={addDefaultImgSrc}
+          />
 
-        <div className="main-stats">
-          <h2>Main Stats</h2>
-          <table>
-            <tbody>
-              <tr>
-                <th>Real Name:</th>
-                <td>{biography["full-name"]}</td>
-              </tr>
-              <tr>
-                <th>Alter Egos:</th>
-                <td>{biography["alter-egos"]}</td>
-              </tr>
-              <tr>
-                <th>Headquarters:</th>
-                <td>{work.base}</td>
-              </tr>
-              <tr>
-                <th>Connections:</th>
-                <td>{connections["group-affiliation"]}</td>
-              </tr>
-              <tr>
-                <th>Species:</th>
-                <td>{appearance.race}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div className="stats-grid">
-          <div className="powerstats">
-            <h3>Powerstats</h3>
-            <ul>
-              <li>
-                <span className="stat-name">Intelligence:</span>{" "}
-                {powerstats.intelligence}
-              </li>
-              <li>
-                <span className="stat-name">Strength:</span>{" "}
-                {powerstats.strength}
-              </li>
-              <li>
-                <span className="stat-name">Speed:</span> {powerstats.speed}
-              </li>
-              <li>
-                <span className="stat-name">Durability:</span>{" "}
-                {powerstats.durability}
-              </li>
-              <li>
-                <span className="stat-name">Power:</span> {powerstats.power}
-              </li>
-              <li>
-                <span className="stat-name">Combat:</span> {powerstats.combat}
-              </li>
-            </ul>
+          <div className="main-stats">
+            <h2>Main Stats</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Real Name:</th>
+                  <td>{biography["full-name"]}</td>
+                </tr>
+                <tr>
+                  <th>Alter Egos:</th>
+                  <td>{biography["alter-egos"]}</td>
+                </tr>
+                <tr>
+                  <th>Headquarters:</th>
+                  <td>{work.base}</td>
+                </tr>
+                <tr>
+                  <th>Connections:</th>
+                  <td>{connections["group-affiliation"]}</td>
+                </tr>
+                <tr>
+                  <th>Species:</th>
+                  <td>{appearance.race}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <div className="other-stats">
-            <h3 style={{ textAlign: "center" }}>Other Stats</h3>
-            <ul>
-              <li>
-                <span className="stat-name">Place Of Birth:</span>{" "}
-                {biography["place-of-birth"] === "-"
-                  ? " Unknown"
-                  : biography["place-of-birth"]}
-              </li>
-              <li>
-                <span className="stat-name">First Appearance:</span>{" "}
-                {biography["first-appearance"]}
-              </li>
-              <li>
-                <span className="stat-name">Job:</span>
+          <div className="stats-grid">
+            <div className="powerstats">
+              <h3>Powerstats</h3>
+              <ul>
+                <li>
+                  <span className="stat-name">Intelligence:</span>{" "}
+                  {powerstats.intelligence}
+                </li>
+                <li>
+                  <span className="stat-name">Strength:</span>{" "}
+                  {powerstats.strength}
+                </li>
+                <li>
+                  <span className="stat-name">Speed:</span> {powerstats.speed}
+                </li>
+                <li>
+                  <span className="stat-name">Durability:</span>{" "}
+                  {powerstats.durability}
+                </li>
+                <li>
+                  <span className="stat-name">Power:</span> {powerstats.power}
+                </li>
+                <li>
+                  <span className="stat-name">Combat:</span> {powerstats.combat}
+                </li>
+              </ul>
+            </div>
 
-                {work.occupation === "-" ? " Unknown" : work.occupation}
-              </li>
-              <li>
-                <span className="stat-name">Relatives:</span>{" "}
-                {connections.relatives}
-              </li>
-              <li>
-                <span className="stat-name">Aliases:</span>{" "}
-                {biography.aliases.map(e => {
-                  return e + ", ";
-                })}
-              </li>
-            </ul>
+            <div className="other-stats">
+              <h3 style={{ textAlign: "center" }}>Other Stats</h3>
+              <ul>
+                <li>
+                  <span className="stat-name">Place Of Birth:</span>{" "}
+                  {biography["place-of-birth"] === "-"
+                    ? " Unknown"
+                    : biography["place-of-birth"]}
+                </li>
+                <li>
+                  <span className="stat-name">First Appearance:</span>{" "}
+                  {biography["first-appearance"]}
+                </li>
+                <li>
+                  <span className="stat-name">Job:</span>
+
+                  {work.occupation === "-" ? " Unknown" : work.occupation}
+                </li>
+                <li>
+                  <span className="stat-name">Relatives:</span>{" "}
+                  {connections.relatives}
+                </li>
+                <li>
+                  <span className="stat-name">Aliases:</span>{" "}
+                  {biography.aliases.map(e => {
+                    return e + ", ";
+                  })}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
+      )}
     </>
   );
 };

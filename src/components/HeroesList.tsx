@@ -34,7 +34,7 @@ class _HeroesList extends React.Component<ListProps> {
               <img alt={name} src={image.url} onError={this.addDefaultImgSrc} />
 
               <h2>
-                <Link to={`/${id}`}>
+                <Link to={`${id}`}>
                   {name} - {biography["publisher"]}
                 </Link>
               </h2>
@@ -77,7 +77,15 @@ class _HeroesList extends React.Component<ListProps> {
     return (
       <div>
         <SearchAndInfoContainer />
-        <div className="container">{this.renderHeroes()}</div>
+        <div className="container">
+          {this.renderHeroes()}
+
+          {/* {this.props.heroes === "character with given name not found" ? (
+            <div>Errr</div>
+          ) : (
+            this.renderHeroes()
+          )} */}
+        </div>
       </div>
     );
   }
