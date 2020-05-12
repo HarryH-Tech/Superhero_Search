@@ -1,13 +1,13 @@
 import {
   FetchAllHeroesAction,
   FetchSingleHeroAction,
-  SearchHeroesAction
+  SearchHeroesAction,
 } from "./heroes";
 
 export enum ActionTypes {
   fetchAllHeroes,
   fetchSingleHero,
-  searchHeroes
+  searchHeroes,
 }
 
 export type Action =

@@ -78,7 +78,7 @@ export const fetchAllHeroes = () => {
     const res = await axios.get(corsProxyUrl + url);
     dispatch<FetchAllHeroesAction>({
       type: ActionTypes.fetchAllHeroes,
-      payload: res.data.results
+      payload: res.data.results,
     });
   };
 };
@@ -91,7 +91,7 @@ export const searchHeroes = (heroName: HeroName) => {
 
     dispatch<SearchHeroesAction>({
       type: ActionTypes.searchHeroes,
-      payload: res.data.results
+      payload: res.data.results,
     });
   };
 };
@@ -102,7 +102,7 @@ export const fetchSingleHero = (heroId: HeroId) => {
     const res = await axios.get<Hero>(corsProxyUrl + url);
     dispatch<FetchSingleHeroAction>({
       type: ActionTypes.fetchSingleHero,
-      payload: res.data
+      payload: res.data,
     });
   };
 };

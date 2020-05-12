@@ -27,20 +27,11 @@ const _SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
   const [heroName, setHeroName] = useState("");
 
   const searchHeroes = () => {
-    console.log(props);
     if (heroName === "") {
       Swal.fire({
         title: "Please Enter Something To Search For 🙂",
         icon: "warning",
-        confirmButtonText: "OK"
-      });
-    }
-
-    if (props.response === "error") {
-      Swal.fire({
-        title: "Please Enter hh To Search For 🙂",
-        icon: "warning",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
       });
     }
 
@@ -49,12 +40,10 @@ const _SearchAndInfoContainer = (props: SearchProps): JSX.Element => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHeroName(e.target.value);
-    console.log(e.target.value);
   };
 
-  //Hacky way to handle search submission on enter keypress
+  //Handle search submission on enter keypress
   const handleKeypress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log(heroName);
     if (e.charCode === 13) {
       searchHeroes();
     }
@@ -88,7 +77,7 @@ const mapStateToProps = (state: StoreState): { hero: Hero } => {
 };
 
 export const SearchAndInfoContainer = connect(mapStateToProps, {
-  searchHeroes
+  searchHeroes,
 })(_SearchAndInfoContainer);
 
 export default SearchAndInfoContainer;

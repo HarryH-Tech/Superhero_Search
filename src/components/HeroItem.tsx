@@ -18,7 +18,7 @@ interface HeroProps {
   fetchSingleHero: Function;
 }
 
-export const _HeroItem: React.FC<HeroProps> = props => {
+export const _HeroItem: React.FC<HeroProps> = (props) => {
   const [heroId, setHeroId] = useState(props.match.url);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,6 @@ export const _HeroItem: React.FC<HeroProps> = props => {
   }, []);
 
   const addDefaultImgSrc = (e: React.BaseSyntheticEvent): void => {
-    console.log(e.target.src);
     e.target.src = NotFound;
   };
 
@@ -40,7 +39,7 @@ export const _HeroItem: React.FC<HeroProps> = props => {
     biography,
     image,
     work,
-    appearance
+    appearance,
   } = props.hero;
 
   if (loading) {
@@ -154,7 +153,7 @@ export const _HeroItem: React.FC<HeroProps> = props => {
                 </li>
                 <li>
                   <span className="stat-name">Aliases:</span>{" "}
-                  {biography.aliases.map(e => {
+                  {biography.aliases.map((e) => {
                     return e + ", ";
                   })}
                 </li>

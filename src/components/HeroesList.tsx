@@ -3,7 +3,6 @@ import { Hero, fetchAllHeroes } from "../actions";
 import { StoreState } from "../reducers";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
 
 import SearchAndInfoContainer from "./SearchAndInfoContainer";
 import NotFound from "../images/NotFound.png";
@@ -20,12 +19,10 @@ class _HeroesList extends React.Component<ListProps> {
   }
 
   addDefaultImgSrc = (e: React.BaseSyntheticEvent) => {
-    console.log(e.target.src);
     e.target.src = NotFound;
   };
 
   renderHeroes(): JSX.Element[] {
-    console.log(this.props);
     return this.props.heroes.map(
       ({ id, name, biography, appearance, work, connections, image }: Hero) => {
         return (

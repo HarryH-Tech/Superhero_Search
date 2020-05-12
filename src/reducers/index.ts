@@ -9,5 +9,5 @@ export interface StoreState {
 
 export const reducers = combineReducers<StoreState>({
   heroes: heroesReducer,
-  hero: heroReducer
+  hero: heroReducer,
 });

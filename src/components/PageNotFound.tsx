@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/pageNotFound.scss";
 import { Link } from "react-router-dom";
 
-export function PageNotFound(props) {
+export function PageNotFound() {
   return (
     <>
       <div id="button-container">

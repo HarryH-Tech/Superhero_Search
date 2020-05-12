@@ -9,7 +9,7 @@ const initialState: Hero = {
     intelligence: "",
     durability: "",
     power: "",
-    combat: ""
+    combat: "",
   },
 
   biography: {
@@ -19,29 +19,29 @@ const initialState: Hero = {
     "place-of-birth": "",
     "first-appearance": "",
     publisher: "",
-    alignment: ""
+    alignment: "",
   },
 
   appearance: {
     gender: "",
     race: "",
     height: [],
-    weight: []
+    weight: [],
   },
 
   work: {
     occupation: "",
-    base: ""
+    base: "",
   },
 
   connections: {
     "group-affiliation": "",
-    relatives: ""
+    relatives: "",
   },
 
   image: {
-    url: ""
-  }
+    url: "",
+  },
 };
 
 export const heroesReducer = (state: Hero[] = [], action: Action) => {
